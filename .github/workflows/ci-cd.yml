@@ -42,12 +42,11 @@ jobs:
 
       # 6. Merge dev into main
       - name: Merge dev into main
-        uses: github-actions/merge-branch@v1.5.0
-        with:
-          source_branch: dev
-          target_branch: main
+        uses: pascalgn/automerge-action@v0.15.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          merge_method: merge  # Options: merge, squash, rebase
 
   # Job 2: Build, Test, and Deploy on main Merge
   deploy:
