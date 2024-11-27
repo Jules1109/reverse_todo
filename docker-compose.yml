@@ -2,7 +2,7 @@ version: '3'
 
 services:
   mongodb:
-    image: mongo:latest
+    image: mongo:latest  # Utilisation de l'image officielle MongoDB
     container_name: mongodb_new
     volumes:
       - mongo-data:/data/db
@@ -15,6 +15,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    image: ed1109/reverse_todo-backend:latest  # Nom de l'image avec votre Docker Hub username
     container_name: backend
     restart: always
     ports:
@@ -32,10 +33,11 @@ services:
       dockerfile: Dockerfile
       args:
         REACT_APP_API_URL: http://localhost:3001
+    image: ed1109/reverse_todo-frontend:latest  # Nom de l'image avec votre Docker Hub username
     container_name: frontend
     restart: always
     ports:
-      - "3000:5000"
+      - "3000:3000"
     depends_on:
       - backend
     networks:
