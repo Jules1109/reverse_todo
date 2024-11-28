@@ -7,40 +7,46 @@ on:
       - main
 
 jobs:
-  # Job 1: Build and Test on dev Merge
   build-and-merge-main:
     if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
-      # 1. Checkout Code
+      # 1. Checkout Code and fetch all branches
       - name: Checkout Code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-      # 2. Install Backend Dependencies
+      # 2. Ensure main branch exists
+      - name: Ensure main branch exists
+        run: |
+          git checkout -b main || git checkout main
+
+      # 3. Install Backend Dependencies
       - name: Install Backend Dependencies
         run: |
           cd backend
           npm install
 
-      # 3. Run Backend Tests
+      # 4. Run Backend Tests
       - name: Run Backend Tests
         run: |
           cd backend
           npm test
 
-      # 4. Install Frontend Dependencies
+      # 5. Install Frontend Dependencies
       - name: Install Frontend Dependencies
         run: |
           cd frontend
           npm install
 
-      # 5. Run Frontend Tests
+      # 6. Run Frontend Tests
       - name: Run Frontend Tests
         run: |
           cd frontend
           npm test
 
-      # 6. Merge dev into main
+      # 7. Merge dev into main
       - name: Merge dev into main
         run: |
           git config user.name "github-actions[bot]"
@@ -50,6 +56,7 @@ jobs:
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
   # Job 2: Build, Test, and Deploy on main Merge
   deploy:
