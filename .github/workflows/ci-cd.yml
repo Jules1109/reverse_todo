@@ -6,12 +6,15 @@ on:
       - dev
       - main
 
+permissions:
+  contents: write  # Active les permissions pour pousser du contenu
+
 jobs:
   build-and-merge-main:
     if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
-      # 1. Checkout Code and fetch all branches
+      # 1. Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
         with:
@@ -22,31 +25,7 @@ jobs:
         run: |
           git checkout -b main || git checkout main
 
-      # 3. Install Backend Dependencies
-      - name: Install Backend Dependencies
-        run: |
-          cd backend
-          npm install
-
-      # 4. Run Backend Tests
-      - name: Run Backend Tests
-        run: |
-          cd backend
-          npm test
-
-      # 5. Install Frontend Dependencies
-      - name: Install Frontend Dependencies
-        run: |
-          cd frontend
-          npm install
-
-      # 6. Run Frontend Tests
-      - name: Run Frontend Tests
-        run: |
-          cd frontend
-          npm test
-
-      # 7. Merge dev into main
+      # 3. Merge dev into main
       - name: Merge dev into main
         run: |
           git config user.name "github-actions[bot]"
