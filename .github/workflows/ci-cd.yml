@@ -6,8 +6,16 @@ on:
       - dev
       - main
 
+<<<<<<< HEAD
 jobs:
   # Job 1: Build and Test on dev Merge
+=======
+permissions:
+  contents: write  # Autorise les opérations de push
+
+jobs:
+  # Job 1: Build and Merge dev into main
+>>>>>>> dev
   build-and-merge-main:
     if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
@@ -15,31 +23,61 @@ jobs:
       # 1. Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
+<<<<<<< HEAD
 
       # 2. Install Backend Dependencies
+=======
+        with:
+          fetch-depth: 0  # Récupère tout l'historique et toutes les branches
+
+      # 2. Ensure main branch exists
+      - name: Ensure main branch exists
+        run: |
+          git checkout -b main || git checkout main
+
+      # 3. Pull latest changes from main
+      - name: Pull remote changes
+        run: |
+          git pull origin main --rebase
+
+      # 4. Install Backend Dependencies
+>>>>>>> dev
       - name: Install Backend Dependencies
         run: |
           cd backend
           npm install
 
+<<<<<<< HEAD
       # 3. Run Backend Tests
+=======
+      # 5. Run Backend Tests
+>>>>>>> dev
       - name: Run Backend Tests
         run: |
           cd backend
           npm test
 
+<<<<<<< HEAD
       # 4. Install Frontend Dependencies
+=======
+      # 6. Install Frontend Dependencies
+>>>>>>> dev
       - name: Install Frontend Dependencies
         run: |
           cd frontend
           npm install
 
+<<<<<<< HEAD
       # 5. Run Frontend Tests
+=======
+      # 7. Run Frontend Tests
+>>>>>>> dev
       - name: Run Frontend Tests
         run: |
           cd frontend
           npm test
 
+<<<<<<< HEAD
       # 6. Merge dev into main
       - name: Merge dev into main
         uses: pascalgn/automerge-action@v0.15.3
@@ -47,6 +85,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           merge_method: merge  # Options: merge, squash, rebase
+=======
+      # 8. Merge dev into main
+      - name: Merge dev into main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git merge dev
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+>>>>>>> dev
 
   # Job 2: Build, Test, and Deploy on main Merge
   deploy:
@@ -56,6 +105,11 @@ jobs:
       # 1. Checkout Code
       - name: Checkout Code
         uses: actions/checkout@v3
+<<<<<<< HEAD
+=======
+        with:
+          fetch-depth: 0  # Récupère tout l'historique et toutes les branches
+>>>>>>> dev
 
       # 2. Install Backend Dependencies
       - name: Install Backend Dependencies

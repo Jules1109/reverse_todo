@@ -21,4 +21,8 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
+<<<<<<< HEAD
 // my feature 1
+=======
+//my feature
+>>>>>>> dev
